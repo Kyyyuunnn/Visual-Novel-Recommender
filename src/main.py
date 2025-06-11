@@ -1,3 +1,6 @@
+from manual_search import manual
+# from vndb_api import... (need this for login)
+
 def main():
     print(f"Welcome to VNReccommender! ")
     print(f"Please choose an option below. ")
@@ -19,9 +22,7 @@ def main():
         print("Invalid option ")
 
 
-def manual():
-    print("not implemented yet...")
-
+# for main to exe
 if __name__ == "__main__":
     main()
     

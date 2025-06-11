@@ -1,5 +1,6 @@
-import htppx
+import httpx
 
+# needs websockets to grab requests
 url = "https://api.vndb.org/kana"
 
 def search (title: str, limit: int = 5):
