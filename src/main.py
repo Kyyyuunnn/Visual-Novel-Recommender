@@ -4,7 +4,7 @@ def main():
     print(f"Welcome to VNReccommender! ")
     print(f"Please choose an option below. ")
 
-    print("1: Login to VNDB and find personalized recommendations")
+    print("1: Login (please go through this option at least once before beginning to use the application.) ")
     print("2: Manually input novels (MUST LOGIN BEFORE USE)")
     print("3: Exit")
 
