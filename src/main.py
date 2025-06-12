@@ -1,19 +1,19 @@
-from manual_search import manual
-# from vndb_api import... (need this for login)
+from login import login
 
 def main():
     print(f"Welcome to VNReccommender! ")
     print(f"Please choose an option below. ")
 
     print("1: Login to VNDB and find personalized recommendations")
-    print("2: Manually input novels")
+    print("2: Manually input novels (MUST LOGIN BEFORE USE)")
     print("3: Exit")
 
     choice = input("Enter your choice (1-3): ")
 
     # placeholder functions
     if choice == "1":
-        login()
+        token = input("Please enter your VNDB API token: ").strip()
+        login(token)
     elif choice == "2": 
         manual()
     elif choice == "3":
