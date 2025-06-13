@@ -1,14 +1,34 @@
-from login import login
+from login import login, auto_login, logout
+import os
 
 def main():
-    print(f"Welcome to VNReccommender! ")
+    info_file = "info.txt"
+
+    if os.path.exists(info_file):
+        with open(info_file, "r") as f:
+            lines = f.readlines()
+            token = None
+            username = None
+            for line in lines:
+                if line.startswith("token="):
+                    token = line.strip().split("=")[1]
+                elif line.startswith("username="):
+                    username = line.strip().split("=")[1]
+        if username:
+            print(f"Welcome Back {username}! ")
+        else: 
+            print(f"Welcome Back! ")
+    else:
+        print(f"Welcome to VNReccommender! ")
+    
     print(f"Please choose an option below. ")
 
     print("1: Login (please go through this option at least once before beginning to use the application.) ")
-    print("2: Manually input novels (MUST LOGIN BEFORE USE)")
-    print("3: Exit")
+    print("2: Manually input novels")
+    print("3: Logout")
+    print("4: Exit")
 
-    choice = input("Enter your choice (1-3): ")
+    choice = input("Enter your choice (1-4): ")
 
     # placeholder functions
     if choice == "1":
@@ -17,7 +37,9 @@ def main():
     elif choice == "2": 
         manual()
     elif choice == "3":
-        print("Goodbye! Enjoy Reading! ")
+        logout()
+    elif choice == "4":
+        print("Goodbye! Enjoy reading! ")
     else:
         print("Invalid option ")
 
