@@ -1,5 +1,7 @@
 from login import login, auto_login, logout
+from manual_search import manual_search, vn_search
 import os
+import asyncio
 
 def main():
     info_file = "info.txt"
@@ -35,7 +37,7 @@ def main():
         token = input("Please enter your VNDB API token: ").strip()
         login(token)
     elif choice == "2": 
-        manual()
+        asyncio.run(manual_search(token))
     elif choice == "3":
         logout()
     elif choice == "4":
