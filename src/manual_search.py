@@ -1,16 +1,19 @@
 import asyncio
-from azaka import Client
-from azaka.models import VisualNovel
+from azaka import Client, Node, select
 
-
-#async def vn_search(title: str, token: str):
-    #try:
-        #async with Client(token=token) as client:
-            #results = await client.get_vn(search=title, fields=["title"])
-            #return [vn.title for vn in results]
-    #except Exception as e:
-        #print("Search failed: ", e)
-        #return []
+async def vn_search(title: str, token: str):
+    query = (
+        select("title")
+        .frm("vn")
+        .where(Node("search") == title)
+    )
+    try:
+        async with Client(token=token) as client:
+            response = await client.execute(query=query)
+            return [vn.title for vn in response.results]
+    except Exception as e:
+        print("Search failed:", e)
+        return []
 
 
 

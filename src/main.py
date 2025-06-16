@@ -27,8 +27,8 @@ def main():
 
     print("1: Login (please go through this option at least once before beginning to use the application.) ")
     print("2: Manually input novels")
-    print("3: Logout")
-    print("4: Exit")
+    print("3: Import from user list")
+    print("4: Logout")
 
     choice = input("Enter your choice (1-4): ")
 
@@ -39,9 +39,10 @@ def main():
     elif choice == "2": 
         asyncio.run(manual_search(token))
     elif choice == "3":
-        logout()
+        break
     elif choice == "4":
-        print("Goodbye! Enjoy reading! ")
+        logout()
+        #print("Goodbye! Enjoy reading! ")
     else:
         print("Invalid option ")
 
