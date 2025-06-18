@@ -1,6 +1,6 @@
 # VNReccommender
 
-A simple python app that will recommend visual novels based on you're preferences from VNDB (Visual Novel Database) using the VNDB API.
+A simple python app that will recommend visual novels based on the user's read list / favorite tags from VNDB (Visual Novel Database) using the VNDB API.
 
 ## Features
 
