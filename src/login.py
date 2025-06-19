@@ -2,6 +2,19 @@ import asyncio
 import os
 from azaka import Client
 
+def read_saved_user_info():
+    info_file = "info.txt"
+    token = None
+    username = None
+    if os.path.exists(info_file):
+        with open(info_file, "r") as f:
+            for line in f:
+                if line.startswith("token="):
+                    token = line.strip().split("=", 1)[1]
+                elif line.startswith("username="):
+                    username = line.strip().split("=", 1)[1]
+    return username, token
+
 info_file = "info.txt"
 
 async def login_and_greet(token: str):
