@@ -1,8 +1,8 @@
 import os
 import asyncio
-from login import login, auto_login, logout
+from login import login, auto_login, logout, read_saved_user_info
 from manual_search import manual_search, vn_search
-from fetch_user_list import fetch_user_list, read_saved_user_info
+from fetch_user_list import fetch_user_list, fetch_user_list_sync
 
 def main():
     info_file = "info.txt"
@@ -45,16 +45,11 @@ def main():
         else:
             print("You must login first.")
     elif choice == "3":
-        if username and token:
-            fetch_user_list(username, token)
-        else:
-            print("You must login first before importing your list.")
+        # inputting from own list
+        break
     elif choice == "4":
-        if token:
-            other_user_id = input("Input the user's ID you'd like to import (e.g. u123456): ").strip()
-            fetch_user_list(other_user_id, token)
-        else:
-            print("You must login first before importing another user's list.")
+        # inputting from other users
+        break
     elif choice == "5":
         logout()
     else:
