@@ -1,30 +1,17 @@
 import asyncio
-from azaka import Client, select, Node, Paginator
+import os
+import re
+from typing import List
+from azaka import Client, Node, select
+from azaka.paginator import Paginator
 
-def save_user_list(vns):
-    with open("imported_user_list.txt", "w", encoding="utf-8") as file:
-        for vn in vns:
-            file.write(vn.title + "\n")
+def import_user_list(token: str, user_id: str = None, creds_file: str = "info.txt", output_file: str = "user_list.txt", max_results: int = 25):
 
-async def fetch_user_list(user_id: str, token: str):
-    try:
-        async with Client(token=token) as client:
-            query = (
-                select("vn.title")
-                .frm("ulist")
-                .where(Node("user") == user_id)
-            )
-            paginator = Paginator(client, query=query, max_results_per_page=100)
+    # reading for u#
+    if not os.path.exists(creds_file):
+        raise FileNotFoundError(f"Please login! {creds_file} missing.")
+    with open(creds_file, "r", encoding="utf-8") as f:
+        content = f.read()
+    match = re.search(r"user_id=(u\d+)", content)
+    return match.group(1)
 
-            all_vns = []
-            async for page in paginator:
-                all_vns.extend(page.results)
-
-            save_user_list(all_vns)
-            print(f"Imported {len(all_vns)} visual novels into 'imported_user_list.txt'")
-    except Exception as e:
-        print("Failed to fetch user list:", e)
-
-# To call the function from sync code:
-def fetch_user_list_sync(user_id: str, token: str):
-    asyncio.run(fetch_user_list(user_id, token))
