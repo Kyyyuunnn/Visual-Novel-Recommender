@@ -1,19 +1,37 @@
 # VNReccommender
 
-A simple python app that will recommend visual novels based on the user's read list / favorite tags from VNDB (Visual Novel Database) using the VNDB API.
+**VNReccommender** is a Python application that recommends visual novels tailored to your tastes, based on your personal reading history and favorite tags from the Visual Novel Database (VNDB). Leveraging the VNDB API through the Azaka wrapper.
+
+---
 
 ## Features
 
-    1. Login with your VNDB token (automatically stored locally for future sessions)
-    2. Personallized recommendations based on:
-        - What you've read recently
-        - Shared tags, developers, lengths, and popularity.
-    3. Purchase Links (JASTUSA, Steam, Denpasoft, etc)
+- **Easy Login**  
+  Authenticate securely using your VNDB API token and is stored locally.
+
+- **Personalized Recommendations**  
+  Get novel suggestions based on:
+
+  - Recently read visual novels
+  - Shared tags, developers, story lengths, and popularity metrics
+
+- **Convenient Purchase Links**  
+  Direct access to buy recommended novels on platforms like JAST USA, Steam, Denpasoft, and more.
+
+---
 
 ## Requirements
 
-    1. Latest Version of Python
-    2. Azaka (VNDB API Wrapper)
+- **Python 3.7+** (latest version recommended)
+- **Azaka** — Official VNDB API Python wrapper
 
-    Install Dependencies:
-        run "pip install -r requirements.txt" in terminal
+---
+
+## Installation
+
+1. Clone or download this repository.
+2. Install required dependencies by running the following command in your terminal:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
