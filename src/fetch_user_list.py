@@ -5,7 +5,7 @@ from typing import List
 from azaka import Client, Node, select
 from azaka.paginator import Paginator
 
-def import_user_list(token: str, user_id: str = None, creds_file: str = "info.txt", output_file: str = "user_list.txt", max_results: int = 25):
+async def import_user_list(token: str, user_id: str = None, creds_file: str = "info.txt", output_file: str = "user_list.txt", max_results: int = 25):
 
     # reading for u#
     if not os.path.exists(creds_file):
