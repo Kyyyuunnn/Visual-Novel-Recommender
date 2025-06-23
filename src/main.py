@@ -2,7 +2,7 @@ import os
 import asyncio
 from login import login, auto_login, logout, read_saved_user_info
 from manual_search import manual_search, vn_search
-from fetch_user_list import fetch_user_list, fetch_user_list_sync
+from fetch_user_list import import_user_list
 
 def main():
     info_file = "info.txt"
@@ -18,6 +18,8 @@ def main():
                     token = line.strip().split("=", 1)[1]
                 elif line.startswith("username="):
                     username = line.strip().split("=", 1)[1]
+                elif line.startswith("user_id="):
+                    user_id = line.strip().split("=", 1)[1]
 
     if username:
         print(f"Welcome Back {username}! ")
@@ -45,11 +47,10 @@ def main():
         else:
             print("You must login first.")
     elif choice == "3":
-        # inputting from own list
-        break
+        pass
     elif choice == "4":
         # inputting from other users
-        break
+        pass
     elif choice == "5":
         logout()
     else:
