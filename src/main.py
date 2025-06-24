@@ -47,7 +47,7 @@ def main():
         else:
             print("You must login first.")
     elif choice == "3":
-        pass
+        asyncio.run(import_user_list(token, user_id))
     elif choice == "4":
         # inputting from other users
         pass
