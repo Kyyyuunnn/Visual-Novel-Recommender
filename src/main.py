@@ -49,8 +49,11 @@ def main():
     elif choice == "3":
         asyncio.run(import_user_list(token, user_id))
     elif choice == "4":
-        # inputting from other users
-        pass
+        if token:
+            other_user_id = input("Please enter the other user's ID (e.g., u123456): ").strip()
+            asyncio.run(import_user_list(token, other_user_id, output_file="other_user_list.txt"))
+        else:
+            print("Please login first. ")
     elif choice == "5":
         logout()
     else:
