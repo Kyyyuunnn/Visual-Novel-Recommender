@@ -7,8 +7,6 @@ import os
 async def import_user_list(token: str, user_id: str, output_file: str = "read_list.txt"):
     data_dir = "data"
     os.makedirs(data_dir, exist_ok=True)
-
-
     output_path = os.path.join(data_dir, output_file)
 
     headers = {
@@ -18,29 +16,43 @@ async def import_user_list(token: str, user_id: str, output_file: str = "read_li
 
     url = "https://api.vndb.org/kana/ulist"
 
-    json_data = {
-        "user": user_id,
-        "fields": "id,vote,vn.title",
-        "filters": ["label", "=", 7],
-        "sort": "vote",
-        "reverse": True,
-        "results": 100
-    }
+    all_titles = []
+    page = 1
+    batch_size = 100
 
     async with httpx.AsyncClient() as client:
-        try:
+        while True:
+            json_data = {
+                "user": user_id,
+                "fields": "id,vote,vn.title",
+                "filters": ["label", "=", 7],
+                "sort": "vote",
+                "reverse": True,
+                "results": batch_size,
+                "page": page
+            }
             response = await client.post(url, headers=headers, json=json_data)
             if response.status_code != 200:
-                print(f"Failed to fetch user list: {response.text}")
-                return
+                print(f"Failed to fetch user list at page {page}: {response.text}")
+                break
+
             data = response.json()
-            titles = [entry["vn"]["title"] for entry in data.get("results", [])]
+            results = data.get("results", [])
+            if not results:
+                break
 
-            with open(output_path, "w", encoding="utf-8") as f:
-                for title in titles:
-                    f.write(title + "\n")
+            for entry in results:
+                all_titles.append(entry["vn"]["title"])
 
-            print(f"Successfully imported {len(titles)} voted VN titles to '{output_path}'.")
+            print(f"Fetched {len(results)} results on page {page}...")
 
-        except Exception as e:
-            print(f"An error occurred: {e}")
+            if len(results) < batch_size:
+                break
+
+            page += 1
+
+    with open(output_path, "w", encoding="utf-8") as f:
+        for title in all_titles:
+            f.write(title + "\n")
+
+    print(f"Successfully imported {len(all_titles)} voted VN titles to '{output_path}'.")
