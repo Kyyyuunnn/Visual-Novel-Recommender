@@ -21,7 +21,7 @@ async def import_user_list(token: str, user_id: str, output_file: str = "read_li
     json_data = {
         "user": user_id,
         "fields": "id,vote,vn.title",
-        "filters": ["label", "=", 7],  # Label 7 = Voted
+        "filters": ["label", "=", 7],
         "sort": "vote",
         "reverse": True,
         "results": 100
