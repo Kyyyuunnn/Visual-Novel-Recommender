@@ -1,3 +1,5 @@
+# need to create a way to do more than 100 results
+
 import asyncio
 import httpx
 import os
@@ -5,6 +7,7 @@ import os
 async def import_user_list(token: str, user_id: str, output_file: str = "read_list.txt"):
     data_dir = "data"
     os.makedirs(data_dir, exist_ok=True)
+
 
     output_path = os.path.join(data_dir, output_file)
 
