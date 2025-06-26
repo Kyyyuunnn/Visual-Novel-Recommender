@@ -44,7 +44,6 @@ async def import_user_list(token: str, user_id: str, output_file: str = "read_li
             for entry in results:
                 all_titles.append(entry["vn"]["title"])
 
-            print(f"Fetched {len(results)} results on page {page}...")
 
             if len(results) < batch_size:
                 break
@@ -55,4 +54,10 @@ async def import_user_list(token: str, user_id: str, output_file: str = "read_li
         for title in all_titles:
             f.write(title + "\n")
 
-    print(f"Successfully imported {len(all_titles)} voted VN titles to '{output_path}'.")
+    if all_titles:
+        with open(output_path, "w",encoding="utf=8") as f:
+            for title in all_titles:
+                f.write(title + "\n")
+            print("List has been imported! ")
+    else:
+        print("Nothing has been imported, please reenter the u#. ")
