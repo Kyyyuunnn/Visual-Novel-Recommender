@@ -5,7 +5,7 @@ from manual_search import manual_search, vn_search
 from fetch_user_list import import_user_list
 
 def main():
-    info_file = "info.txt"
+    info_file = "data/info.txt"
 
     token = None
     username = None

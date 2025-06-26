@@ -1,5 +1,9 @@
 import asyncio
+import os
 from azaka import Client, Node, select
+
+DATA_DIR = "data"
+os.makedirs(DATA_DIR, exist_ok=True)
 
 async def vn_search(title: str, token: str):
     query = (
@@ -15,8 +19,6 @@ async def vn_search(title: str, token: str):
         print("Search failed:", e)
         return []
 
-
-
 async def manual_search(token: str):
     saved_vn = []
 
@@ -26,38 +28,38 @@ async def manual_search(token: str):
             print("Title cannot be empty")
             continue
 
-        results = await (vn_search(title, token))
+        results = await vn_search(title, token)
 
         if not results:
-            print("No results found")
+            print("No results found.")
         else:
-            print("Search results: ")
+            print("Search results:")
             for i, vn_title in enumerate(results):
                 print(f"{i + 1}: {vn_title}")
 
-            # vn selection
             try:
-                choice = int(input("Choose the visual novel you're looking for (or 0  to cancel): "))
+                choice = int(input("Choose the visual novel you're looking for (or 0 to cancel): "))
                 if 1 <= choice <= len(results):
                     selected_title = results[choice - 1]
                     saved_vn.append(selected_title)
                     print(f"Added '{selected_title}' to your list.")
-                else:
+                elif choice == 0:
                     print("Cancelled.")
+                else:
+                    print("Invalid choice.")
             except ValueError:
                 print("Invalid input.")
 
-        cont = input("Would you like to add another title? (y or n) ")
+        cont = input("Would you like to add another title? (y or n): ").strip().lower()
         if cont != 'y':
             break
-        else:
-            continue
 
-    with open("read_list.txt", "w", encoding="utf-8") as file:
+    output_path = os.path.join(DATA_DIR, "read_list.txt")
+    with open(output_path, "w", encoding="utf-8") as file:
         for vn in saved_vn:
             file.write(vn + "\n")
-    print("\nSearch complete. Saved visual novels: ")
+
+    print("\nSearch complete. Saved visual novels:")
     for vn in saved_vn:
         print(f"- {vn}")
-    print("All novels have been saved to 'read_list.txt'.")
-
+    print(f"All novels have been saved to '{output_path}'.")

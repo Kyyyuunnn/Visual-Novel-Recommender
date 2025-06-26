@@ -3,7 +3,7 @@ import os
 from azaka import Client
 
 def read_saved_user_info():
-    info_file = "info.txt"
+    info_file = "data/info.txt"
     token = None
     username = None
     if os.path.exists(info_file):
@@ -15,7 +15,7 @@ def read_saved_user_info():
                     username = line.strip().split("=", 1)[1]
     return username, token
 
-info_file = "info.txt"
+info_file = "data/info.txt"
 
 async def login_and_greet(token: str):
     try:
@@ -25,6 +25,7 @@ async def login_and_greet(token: str):
             user_id = auth_info.id  # grabs id
 
             # saves token
+            os.makedirs("data", exist_ok=True)
             with open(info_file, "w") as f:
                 f.write(f"token={token}\nusername={username}\nuser_id={user_id}")
 
