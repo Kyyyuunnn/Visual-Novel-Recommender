@@ -42,11 +42,9 @@ async def fetch_top10_tags(token: str, vn_titles: list[str]) -> dict:
                             "count": 1
                         }
 
-    # Normalize scores
     for tag_id, info in tag_scores.items():
         info["score"] /= info["count"]
 
-    # Sort by count descending and take top 10
     top_10 = dict(sorted(tag_scores.items(), key=lambda x: x[1]["count"], reverse=True)[:10])
 
     return top_10
