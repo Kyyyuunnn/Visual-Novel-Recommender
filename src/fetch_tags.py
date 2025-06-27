@@ -16,7 +16,7 @@ async def fetch_top10_tags(token: str, vn_titles: list[str]) -> dict:
         for title in vn_titles:
             json_data = {
                 "filters": ["search", "=", title],
-                "fields": "tags.rating, tags.id",
+                "fields": "tags.rating, tags.id, tags.category",
                 "results": 1
             }
 
@@ -30,6 +30,8 @@ async def fetch_top10_tags(token: str, vn_titles: list[str]) -> dict:
 
             tags = data["results"][0].get("tags", [])
             for tag in tags:
+                if tag.get("category") != "cont":
+                    continue
                 tag_id = tag["id"]
                 rating = tag.get("rating")
                 if rating is not None:
@@ -45,9 +47,9 @@ async def fetch_top10_tags(token: str, vn_titles: list[str]) -> dict:
     for tag_id, info in tag_scores.items():
         info["score"] /= info["count"]
 
-    top_10 = dict(sorted(tag_scores.items(), key=lambda x: x[1]["count"], reverse=True)[:10])
+    top_20 = dict(sorted(tag_scores.items(), key=lambda x: x[1]["count"], reverse=True)[:20])
 
-    return top_10
+    return top_20
 
 async def main_fetch_tags(token: str):
     input_file = "data/read_list.txt"
