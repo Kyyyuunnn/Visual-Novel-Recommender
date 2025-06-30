@@ -47,7 +47,22 @@ async def fetch_top10_tags(token: str, vn_titles: list[str]) -> dict:
     for tag_id, info in tag_scores.items():
         info["score"] /= info["count"]
 
-    top_20 = dict(sorted(tag_scores.items(), key=lambda x: x[1]["count"], reverse=True)[:20])
+    max_score = max(info["score"] for info in tag_scores.values())
+    max_score = max(info["count"] for info in tag_scores.values())
+
+    weighted_tags = {}
+    for tag_id, info in tag_scores.items():
+        # calculations
+        norm_score = info["score"] / max_score if max_score else 0
+        norm_count = info["count"] / max_score if max_score else 0
+        final_weight = (norm_score * 0.8) + (norm_count * 0.2)
+        weighted_tags[tag_id] = {
+            "score": info["score"],
+            "count": info["count"],
+            "weight": final_weight
+        }
+
+    top_20 = dict(sorted(weighted_tags.items(), key=lambda x: x[1]["weight"], reverse=True)[:20])
 
     return top_20
 
