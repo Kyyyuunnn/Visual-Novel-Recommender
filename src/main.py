@@ -32,11 +32,10 @@ def main():
     print("1: Login (please go through this option at least once before beginning to use the application.) ")
     print("2: Manually input novels")
     print("3: Import your VNDB read list")
-    print("4: Import another user's list") # removing this feature
-    print("5: Fetch top 10 tags") # will combine this later on with the rec system
-    print("6: Logout")
+    print("4: Fetch top 20 tags") # will combine this later on with the rec system
+    print("5: Logout")
 
-    choice = input("Enter your choice (1-6): ").strip()
+    choice = input("Enter your choice (1-5): ").strip()
 
     # placeholder functions
     if choice == "1":
@@ -51,12 +50,6 @@ def main():
     elif choice == "3":
         asyncio.run(import_user_list(token, user_id))
     elif choice == "4":
-        if token:
-            other_user_id = input("Please enter the other user's ID (e.g., u123456): ").strip()
-            asyncio.run(import_user_list(token, other_user_id, output_file="other_user_list.txt"))
-        else:
-            print("Please login first. ")
-    elif choice == "5":
         vn_titles = []
         with open("data/read_list.txt", "r", encoding="utf-8") as f:
             for _ in range(10):
@@ -65,7 +58,7 @@ def main():
                     break
                 vn_titles.append(line.strip())
         asyncio.run(main_fetch_tags(token))
-    elif choice == "6":
+    elif choice == "5":
         logout()
     else:
         print("Invalid option ")
