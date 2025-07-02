@@ -15,15 +15,13 @@ async def recommend(token: str, top_tags: dict, page: int = 0, results_per_page:
         ["tag", "=", [tag_id, 0, 1.0]] for tag_id in top_tags.keys()
     ]
 
-    start = page * results_per_page
-
     query = {
         "filters": ["or"] + tag_filters,
         "fields": "id, title, rating",
         "sort": "rating",
         "reverse": True,
         "results": results_per_page,
-        "start": start
+        "page": page + 1
     }
 
     async with httpx.AsyncClient() as client:
@@ -35,7 +33,7 @@ async def recommend(token: str, top_tags: dict, page: int = 0, results_per_page:
 async def pipeline(token: str, vn_titles: list[str], rec_count: int = 10):
     top_10_titles = vn_titles[:10]
     top_tags = await fetch_top10_tags(token, top_10_titles)
-    recommendations = await recommend(token, top_tags, num_results=rec_count * 3)
+    recommendations = await recommend(token, top_tags, results_per_page=rec_count * 10)
 
     read_titles_set = set(vn_titles)
     filtered_recommendations = [vn for vn in recommendations if vn.get("title") not in read_titles_set]
@@ -48,4 +46,3 @@ async def pipeline(token: str, vn_titles: list[str], rec_count: int = 10):
             print(f"- {vn.get('title')} (Rating: {vn.get('rating')})")
     else:
         print("No recommendations found.")
-
