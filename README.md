@@ -35,3 +35,6 @@
    ```bash
    pip install -r requirements.txt
    ```
+
+
+CURRENTLY SOMETHING IS WRONG WITH RECOMMENDATION SYSTEM
